@@ -57,9 +57,9 @@ export default class DragMixin extends DragAwareMixin {
         let downEvent: TouchEvent | MouseEvent = null;
         let startPosition = null;
 
-        if (this.handle) {
-            el = this.$el.querySelectorAll(this.handle)
-        }
+        // if (this.handle) {
+        //     el = this.$el.querySelectorAll(this.handle)
+        // }
 
         if (isNodeList(el)) {
             el.forEach((element) => {
@@ -91,6 +91,13 @@ export default class DragMixin extends DragAwareMixin {
 
         function onMouseDown(e) {
             if (!comp.disabled && downEvent === null) {
+                //  check if target is handle
+                if (this.handle) {
+                    console.log(e, this.handle);
+                    if (!e.target.classList.contains(this.handle)) {
+                        return false;
+                    }
+                }
                 initialUserSelect = document.body.style.userSelect;
                 document.documentElement.style.userSelect = 'none'; // Permet au drag de se poursuivre normalement même
                 // quand on quitte un élémént avec overflow: hidden.
